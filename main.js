@@ -2,29 +2,45 @@ var TicTacBoom = (function() {
   var app = {};
   var player = 'X';
   
+  function _updateBoard ( event ) {
+    event.srcElement.innerHTML = player;
+    player = player === 'X' ? 'O' : 'X';
+  }
+  
   function _isWinner (a0, a1, a2) {
     return a0 === a1 && a1 === a2;
   }
   
-  function _updateBoard ( event ) {
-    event.srcElement.innerHTML = player;
-    
-    player = player === 'X' ? 'O' : 'X';
+  function _winningRow(/**/) {
+    // return _isWinner (a0, a1, a2);
+  }
+  
+  function _winningColumn(/**/) {
+    // return _isWinner (a0, a1, a2);
+  }
+  
+  function _winningDiagonal(/**/) {
+    // return _isWinner (a0, a1, a2);
   }
   
   function _checkForWin (event) {
-    console.warn('x ::: ' , event.srcElement.dataset.x);
-    console.warn('y ::: ' , event.srcElement.dataset.y);
-    // xCor, yCor
+    var row = event.srcElement.dataset.x;
+    var column = event.srcElement.dataset.y;
+    console.warn('row ::: ' , row);
+    console.warn('column ::: ' , column);
+    
+    if(_winningRow()) {
+      _boom();
+    } else if(_winningColumn()) {
+      _boom();
+    } else if(_winningDiagonal()) {
+      _boom();
+    }
+  }
   
-      // _getRowValues
-      // _isWinner(a0, a1, a2)
-      
-      // _getColumnValues
-      // _isWinner(a0, a1, a2)
-      
-      //_getDiagonalValues (if applilcable)
-      // _isWinner(a0, a1, a2)
+  function _boom() {
+    alert('BOOM! You won!');
+    // disable board
   }
   
   function _playGame (event) {
