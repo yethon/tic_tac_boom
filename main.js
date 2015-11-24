@@ -4,45 +4,36 @@ var TicTacBoom = (function() {
   var board = document.getElementById("board");
   
   function _updateBoard ( event ) {
+    if(event.srcElement.innerHTML) { return; }
+    
     event.srcElement.innerHTML = player;
     player = player === 'X' ? 'O' : 'X';
   }
   
   function _isWinner (a0, a1, a2) {
-    return a0 === a1 && a1 === a2;
+    return a0 && a1 && a2 && a0 === a1 && a1 === a2;
   }
   
-  // dry this out
+  function _getValue(row, col) {
+    return $('tr').eq(row).children()[col].innerHTML;
+  }
+  
   function _winningRow(row) {
-    var first = $('tr').eq(row).children()[0].innerHTML;
-    var second = $('tr').eq(row).children()[1].innerHTML;
-    var third = $('tr').eq(row).children()[2].innerHTML;
-    
-    return _isWinner(first, second, third);
+    return _isWinner( _getValue(row, 0), _getValue(row, 1), _getValue(row, 2));
   }
   
-  // dry this out
   function _winningColumn(col) {
-    var first = $('tr').eq(0).children()[col].innerHTML;
-    var second = $('tr').eq(1).children()[col].innerHTML;
-    var third = $('tr').eq(2).children()[col].innerHTML;
-    
-    return _isWinner(first, second, third);
+    return _isWinner( _getValue(0, col), _getValue(1, col), _getValue(2, col));
   }
   
   function _winningDiagonal(row, col) {
-    col = parseInt(col);
-    row = parseInt(row);
-    
-    if((col === 0 && row === 1) ||
-       (col === 2 && row === 1) ||
-       (col === 1 && row === 0) ||
-       (col === 1 && row === 2)) { 
-         return false; 
-       }
-       
-    // check for diagonal
-    
+    if (_isWinner( _getValue(0, 0), _getValue(1, 1), _getValue(2, 2))) {
+      return true;
+    } else if (_isWinner( _getValue(0, 2), _getValue(1, 1), _getValue(2, 0))) {
+      return true;   
+    } else {
+      return false;
+    }
   }
   
   function _checkForWin (event) {
